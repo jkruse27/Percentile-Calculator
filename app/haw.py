@@ -422,3 +422,160 @@ def get_haw_plot(
         )
 
     return fig
+
+
+def get_plots(
+        sex: str,
+        age: int,
+        height: int,
+        weight: float,
+        horizontal: bool = True,
+        **args
+        ) -> float:
+    """Function that plots the height-adjusted weight percentiles and
+    the height and weight percentiles.
+
+    Parameters
+    ----------
+    sex : str
+        Sex of the subject. Male ('male') or female ('female').
+    age : int
+        Age of the subject in years.
+    height : int
+        Height of the subject in cm.
+    weight : int
+        Weight of the subject in kg.
+    horizontal : bool, optional
+        Whether to plot the plots side by side (True) or
+        vertically stacked (False). Default: False.
+    args:
+        Parameters to be passed to matplotlib figure.
+
+    Returns
+    -------
+    plt.Figure
+        Figure with the plot
+    """
+    h_score = height_score(sex, age, height)
+    w_score = weight_score(sex, age, weight)
+    hw_score = haw_score(sex, age, height, weight)
+
+    h_min, h_max = height_range(sex, age)
+    w_min, w_max = weight_range(sex, age)
+
+    fig, (ax, ax2) = plt.subplots(
+        1+(horizontal is True)*1,
+        1+(horizontal is False)*1,
+        subplot_kw=dict(box_aspect=1),
+        **args)
+
+    ax.set_title(f'Height and Weight Percentiles in {age} yrs-old {sex}')
+    ax.set_xlim(h_min, h_max)
+    ax.set_ylim(w_min, w_max)
+    ax.set_xlabel('Height [cm]')
+    ax.set_ylabel('Weight [kg]')
+    ax.yaxis.set_major_locator(MultipleLocator(10))
+    ax.xaxis.set_major_locator(MultipleLocator(10))
+
+    is_male = int(sex.lower() == 'male')
+    weight_data = pd.read_csv(WEIGHT_PATH).set_index(['male', 'age'])
+    height_data = pd.read_csv(HEIGHT_PATH).set_index(['male', 'age'])
+
+    w_range = weight_data.loc[(is_male, age), :].values
+    h_range = height_data.loc[(is_male, age), :].values
+
+    ax.axvspan(
+        min(h_range)*100,
+        max(h_range)*100,
+        (min(w_range)-w_min)/(w_max-w_min),
+        (max(w_range)-w_min)/(w_max-w_min),
+        facecolor='mistyrose'
+    )
+    ax.axvspan(
+        h_range[3]*100,
+        h_range[21]*100,
+        (w_range[3]-w_min)/(w_max-w_min),
+        (w_range[21]-w_min)/(w_max-w_min),
+        facecolor='lightyellow'
+    )
+    ax.axvspan(
+        h_range[7]*100,
+        h_range[17]*100,
+        (w_range[7]-w_min)/(w_max-w_min),
+        (w_range[17]-w_min)/(w_max-w_min),
+        facecolor='greenyellow'
+    )
+
+    ax.hlines(weight, h_min, h_max, colors='lightcoral', linestyle='--')
+    ax.vlines(height, w_min, w_max, colors='lightcoral', linestyle='--')
+    ax.scatter([height], [weight], marker='D', color='lightcoral')
+
+    if (height < h_min or height > h_max):
+        ax.text(
+            h_max,
+            (w_min+w_max)/2,
+            "Height not in the assessable range!",
+            c='lightcoral'
+            )
+    else:
+        ax.text(
+            height,
+            w_min+(w_max-w_min)/30,
+            f"{h_score: .1f}%",
+            c='lightcoral',
+            fontsize=17
+            )
+    if (weight < w_min or weight > w_max):
+        ax.text(
+            (h_min+h_max)/2,
+            w_max,
+            "Weight not in the assessable range!",
+            c='lightcoral'
+            )
+    else:
+        ax.text(
+            h_min,
+            weight+(w_max-w_min)/30,
+            f"{w_score: .1f}%",
+            c='lightcoral',
+            fontsize=17
+            )
+
+    ax2.set_title(f'Height-adjusted Weight Percentile in {age} yrs-old {sex}')
+    ax2.set_xlim(h_min, h_max)
+    ax2.set_ylim(w_min, w_max)
+    ax2.set_xlabel('Height [cm]')
+    ax2.set_ylabel('Weight [kg]')
+    ax2.yaxis.set_major_locator(MultipleLocator(10))
+    ax2.xaxis.set_major_locator(MultipleLocator(10))
+
+    x = np.linspace(h_min, h_max, 50)
+    c = get_coefficients(sex, age, 0.1)
+    y_10 = c[1]+c[2]*(x/100)+c[3]*(x/100)**2+c[4]*(x/100)**3
+    c = get_coefficients(sex, age, 0.9)
+    y_90 = c[1]+c[2]*(x/100)+c[3]*(x/100)**2+c[4]*(x/100)**3
+    c = get_coefficients(sex, age, 0.02)
+    y_2 = c[1]+c[2]*(x/100)+c[3]*(x/100)**2+c[4]*(x/100)**3
+    c = get_coefficients(sex, age, 0.98)
+    y_98 = c[1]+c[2]*(x/100)+c[3]*(x/100)**2+c[4]*(x/100)**3
+
+    ax2.fill_between(x, y_98, np.zeros_like(x)+w_max, color='mistyrose')
+    ax2.fill_between(x, np.zeros_like(x)+w_min, y_2, color='mistyrose')
+    ax2.fill_between(x, y_2, y_98, color='lightyellow')
+    ax2.fill_between(x, y_10, y_90, color='greenyellow')
+
+    ax2.hlines(weight, h_min, h_max, colors='lightcoral', linestyle='--')
+    ax2.vlines(height, w_min, w_max, colors='lightcoral', linestyle='--')
+    ax2.scatter([height], [weight], marker='D', color='lightcoral')
+
+    ax2.text(
+        height,
+        weight+(w_max-w_min)/30,
+        f"{hw_score: .1f}%",
+        c='lightcoral',
+        fontsize=17
+        )
+
+    fig.tight_layout()
+
+    return fig
