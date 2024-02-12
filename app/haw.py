@@ -279,7 +279,7 @@ def get_height_and_weight_plot(
     h_min, h_max = height_range(sex, age)
     w_min, w_max = weight_range(sex, age)
 
-    fig, ax = plt.subplots(1, **args)
+    fig, ax = plt.subplots(1, subplot_kw=dict(box_aspect=1), **args)
     ax.set_title(f'Height and Weight Percentiles in {age} yrs-old {sex}')
     ax.set_xlim(h_min, h_max)
     ax.set_ylim(w_min, w_max)
@@ -385,7 +385,7 @@ def get_haw_plot(
     h_min, h_max = height_range(sex, age)
     w_min, w_max = weight_range(sex, age)
 
-    fig, ax = plt.subplots(1, **args)
+    fig, ax = plt.subplots(1, subplot_kw=dict(box_aspect=1), **args)
     ax.set_title(f'Height-adjusted Weight Percentile in {age} yrs-old {sex}')
     ax.set_xlim(h_min, h_max)
     ax.set_ylim(w_min, w_max)
@@ -429,7 +429,7 @@ def get_plots(
         age: int,
         height: int,
         weight: float,
-        horizontal: bool = True,
+        horizontal: bool = False,
         **args
         ) -> float:
     """Function that plots the height-adjusted weight percentiles and
@@ -456,6 +456,19 @@ def get_plots(
     plt.Figure
         Figure with the plot
     """
+    columns = [
+        "Sex", "Age", "Height", "Weight",
+        "H. percentile", "W. percentile", "HaW"
+        ]
+    val = [[sex,
+            f'{age} Yrs',
+            f'{height}cm',
+            f'{weight}kg',
+            f'{height_score(sex, age, height):.1f}%',
+            f'{weight_score(sex, age, weight):.1f}%',
+            f'{haw_score(sex, age, height, weight):.1f}%']]
+    df = pd.DataFrame(val, columns=columns)
+
     h_score = height_score(sex, age, height)
     w_score = weight_score(sex, age, weight)
     hw_score = haw_score(sex, age, height, weight)
@@ -463,11 +476,18 @@ def get_plots(
     h_min, h_max = height_range(sex, age)
     w_min, w_max = weight_range(sex, age)
 
-    fig, (ax, ax2) = plt.subplots(
+    fig, (ax0, ax, ax2) = plt.subplots(
+        2+(horizontal is False)*1,
         1+(horizontal is True)*1,
-        1+(horizontal is False)*1,
-        subplot_kw=dict(box_aspect=1),
         **args)
+
+    ax0.axis('tight')
+    ax0.axis('off')
+    ax0.table(
+        cellText=df.values,
+        colLabels=df.columns,
+        loc='center'
+        )
 
     ax.set_title(f'Height and Weight Percentiles in {age} yrs-old {sex}')
     ax.set_xlim(h_min, h_max)
@@ -576,6 +596,8 @@ def get_plots(
         fontsize=17
         )
 
+    ax.set_box_aspect(1)
+    ax2.set_box_aspect(1)
     fig.tight_layout()
 
     return fig
