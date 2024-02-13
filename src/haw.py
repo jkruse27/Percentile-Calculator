@@ -1,15 +1,16 @@
-import pathlib
+import data
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from bisect import bisect_right
 from scipy.stats import norm
 from matplotlib.ticker import MultipleLocator
+from importlib import resources as impresources
 
-cwd = str(pathlib.Path(__file__).parent)
-HEIGHT_PATH = f"{cwd}/../data/height_data.csv"
-WEIGHT_PATH = f"{cwd}/../data/weight_data.csv"
-PARA_PATH = f"{cwd}/../data/para.csv"
+
+HEIGHT_PATH = (impresources.files(data) / 'height_data.csv')
+WEIGHT_PATH = (impresources.files(data) / 'weight_data.csv')
+PARA_PATH = (impresources.files(data) / 'para.csv')
 
 quantiles = [
     0.002,
