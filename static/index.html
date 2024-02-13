@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="hawcalculator.com" content="Nofoobar">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <h1>Height-adjusted Weight Score Calculator</h1>
+
+    <div id="col-1">
+        <form class="cf" action="/submit" method="get">
+            <div class="half left cf">
+                <p class="center">Sex:</p>
+                <select name="sex" id="sex" name="sex" class="custom-select">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <p class="center">Age (years):</p>
+                <input type="number" name="age" id="age" min="5" max="17" placeholder="12" required 
+                oninvalid="this.setCustomValidity('Enter a valid age between 5 and 17')"
+                oninput="this.setCustomValidity('')" class="center"/>
+                <p class="center">Height (cm):</p>
+                <input type="text" name="height" id="height" min="50" max="300" placeholder="151" required pattern="\d+"
+                oninvalid="this.setCustomValidity('Enter a valid height in cm (no decimal places)')"
+                oninput="this.setCustomValidity('')" class="center"/>
+                <p class="center">Weight (kg):</p>
+                <input type="text" name="weight" id="weight" placeholder="43.1" inputmode="numeric" pattern="\d+(.\d)*" required
+                oninvalid="this.setCustomValidity('Enter a valid weight in kg')"
+                oninput="this.setCustomValidity('')" class="center"/>
+                <div class="buttons">
+                    <input type="submit" value="Calculate" id="input-submit">
+                    <input type="submit" value="Create PDF" id="input-submit" formaction="/create_pdf">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="col-2">
+        <div id="top_row">
+            {% if age %}
+            <table cellspacing=3>
+                <tr>
+                <th>Sex</th>
+                <th>Age</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Height Percentile</th>
+                <th>Weight Percentile</th>
+                <th>HaW</th>
+                </tr>
+                <tr>
+                    <th>{{sex}}</th>
+                    <th>{{age}} years</th>
+                    <th>{{height}}cm</th>
+                    <th>{{weight}}kg</th>
+                    <th>{{height_score}}%</th>
+                    <th>{{weight_score}}%</th>
+                    <th>{{haw_score}}%</th>
+                </tr>
+            </table> 
+            {% endif %}
+        </div>
+        <div id="col-3" class="container">
+            {% if img %}
+            <img src="data:image/jpeg;base64,{{ img }}" />
+            {% endif %}
+        </div>
+        <div id="col-4" class="container">
+            {% if img2 %}
+            <img src="data:image/jpeg;base64,{{ img2 }}" />
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
