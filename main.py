@@ -5,8 +5,8 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import Response, HTMLResponse
 from fastapi.templating import Jinja2Templates
-from haw import weight_score, height_score, haw_score
-from haw import get_height_and_weight_plot, get_haw_plot, get_plots
+from src.haw import weight_score, height_score, haw_score
+from src.haw import get_height_and_weight_plot, get_haw_plot, get_plots
 
 
 app = FastAPI()
@@ -66,12 +66,10 @@ async def create_pdf(sex: str, age: int, height: int, weight: float):
         headers=headers,
         media_type='application/pdf'
         )
-    #return FileResponse(path='static/results.pdf')
 
 if (__name__ == "__main__"):
     uvicorn.run(
         "main:app",
         host='127.0.0.1',
-        port=8000,
-        reload=True
+        port=8000
         )
