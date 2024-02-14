@@ -1,12 +1,22 @@
-@import "compass/css3";
-
 @import url(https://fonts.googleapis.com/css?family=Merriweather);
-$red: #e74c3c;
 
 *, 
 *:before, 
 *:after {
    @include box-sizing(border-box); 
+}
+
+input[type="text"] {
+  display: block;
+  margin : 0 auto;
+}
+input[type="number"] {
+  display: block;
+  margin : 0 auto;
+}
+select {
+  display: block;
+  margin : 0 auto;
 }
 
 .container {
@@ -18,29 +28,14 @@ $red: #e74c3c;
    height:100%;
    object-fit:contain;
  } 
- 
- #col-1 {
-   display: block;
-   text-align: center;
-   margin-right: 5em;
-   position: relative;
-   width: 20%;
-   float: left;
-   height: 100%;
-   border: 5px solid rgb(79, 78, 78);
-   border-radius: 30px;
-   background-color: #b3b0b0;
-   z-index: 1010101010
- }
- 
- #col-2 {
-   position: relative;
-   width: 70%;
-   float: left;
-   height: 100%;
-   background-color: #b3b0b0;
-   z-index: 1010101010
- }
+
+ .w3-container input{ /* You Can Name it what you want*/
+  margin-right:2em;
+  }
+  .w3-container input:last-child{
+  margin-right:0px;
+  /*so the last one dont push the div thas giving the space only between the inputs*/
+  }
 
  #col-3 {
    position: relative;
@@ -70,15 +65,17 @@ table, th, td {
    margin: 0 auto;
    border: 1px solid black;
    border-radius: 4px;
+   padding: 15px;
    }
    th, td {
-   background-color: #e2e3e3;
+   background-color: #fdffff;
    }
 
 html, body {
   background: #b3b0b0;
   font-family: 'Merriweather', sans-serif;
   padding: 1em;
+  height: 100%;
 }
 
 h1 {
@@ -88,9 +85,9 @@ h1 {
 }
 
 form {
-   display: inline-block;
+   display: block;
    max-width: 600px;
-   text-align: center;
+   text-align: left;
    margin: 20px auto;
   input, textarea {
      border:0; outline:0;
@@ -110,7 +107,6 @@ form {
   
   #input-submit {
      color: black; 
-     background: $red;
      cursor: pointer;
     
     &:hover {

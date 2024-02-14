@@ -1,76 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="hawcalculator.com" content="Nofoobar">
-    <link rel="stylesheet" href="static/style.css">
+<title>HaW Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
 </head>
-<body>
-    <h1>Height-adjusted Weight Score Calculator</h1>
+<body class="w3-light-grey">
 
-    <div id="col-1">
-        <form class="cf" action="/submit" method="get">
-            <div class="half left cf">
-                <p class="center">Sex:</p>
-                <select name="sex" id="sex" name="sex" class="custom-select">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-                <p class="center">Age (years):</p>
-                <input type="number" name="age" id="age" min="5" max="17" placeholder="12" required 
-                oninvalid="this.setCustomValidity('Enter a valid age between 5 and 17')"
-                oninput="this.setCustomValidity('')" class="center"/>
-                <p class="center">Height (cm):</p>
-                <input type="text" name="height" id="height" min="50" max="300" placeholder="151" required pattern="\d+"
-                oninvalid="this.setCustomValidity('Enter a valid height in cm (no decimal places)')"
-                oninput="this.setCustomValidity('')" class="center"/>
-                <p class="center">Weight (kg):</p>
-                <input type="text" name="weight" id="weight" placeholder="43.1" inputmode="numeric" pattern="\d+(.\d)*" required
-                oninvalid="this.setCustomValidity('Enter a valid weight in kg')"
-                oninput="this.setCustomValidity('')" class="center"/>
-                <div class="buttons">
-                    <input type="submit" value="Calculate" id="input-submit">
-                    <input type="submit" value="Create PDF" id="input-submit" formaction="/create_pdf">
-                </div>
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+  
+    <!-- Left Column -->
+    <div class="w3-third">
+    
+      <div class="w3-white w3-text-grey w3-card-4">
+        <h1>Height-Adjusted Weight Percentile Calculator</h1>
+        <div class="w3-container">
+                <form action="/submit" method="get">
+                    <div>
+                        <p>Sex:</p>
+                        {% if sex=='female' %}
+                        <select name="sex" id="sex" name="sex" class="custom-select">
+                            <option value="male">Male</option>
+                            <option value="female" selected="selected">Female</option>
+                        </select>
+                        {% else %}
+                        <select name="sex" id="sex" name="sex" class="custom-select">
+                            <option value="male" selected="selected">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        {% endif %}
+                        <p>Age (years):</p>
+                        {% if age %}
+                        <input type="number" name="age" id="age" min="5" max="17" value="{{age}}" required 
+                        oninvalid="this.setCustomValidity('Enter a valid age between 5 and 17')"
+                        oninput="this.setCustomValidity('')" class="center"/>
+                        {% else %}
+                        <input type="number" name="age" id="age" min="5" max="17" placeholder="12" required 
+                        oninvalid="this.setCustomValidity('Enter a valid age between 5 and 17')"
+                        oninput="this.setCustomValidity('')" class="center"/>
+                        {% endif %}
+                        <p>Height (cm):</p>
+                        {% if height %}
+                        <input type="text" name="height" id="height" min="50" max="300" value="{{height}}" required pattern="\d+"
+                        oninvalid="this.setCustomValidity('Enter a valid height in cm (no decimal places)')"
+                        oninput="this.setCustomValidity('')" class="center"/>
+                        {% else %}
+                        <input type="text" name="height" id="height" min="50" max="300" placeholder="151" required pattern="\d+"
+                        oninvalid="this.setCustomValidity('Enter a valid height in cm (no decimal places)')"
+                        oninput="this.setCustomValidity('')" class="center"/>
+                        {% endif %}
+                        <p>Weight (kg):</p>
+                        {% if weight %}
+                        <input type="text" name="weight" id="weight" value="{{weight}}" inputmode="numeric" pattern="\d+(.\d)*" required
+                        oninvalid="this.setCustomValidity('Enter a valid weight in kg')"
+                        oninput="this.setCustomValidity('')" class="center"/>
+                        {% else %}
+                        <input type="text" name="weight" id="weight" placeholder="43.1" inputmode="numeric" pattern="\d+(.\d)*" required
+                        oninvalid="this.setCustomValidity('Enter a valid weight in kg')"
+                        oninput="this.setCustomValidity('')" class="center"/>
+                        {% endif %}
+                        <div class="buttons">
+                            <input type="submit" value="Calculate" id="input-submit">
+                            <input type="submit" value="Create PDF" id="input-submit" formaction="/create_pdf">
+                        </div>
+                    </div>
+                </form>
+          </div>
+        </div>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+        <h1>Results</h1>
+        <div>
+            <div id="top_row">
+                {% if age %}
+                <table cellspacing=7>
+                    <tr>
+                    <th>Sex</th>
+                    <th>Age</th>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Height Percentile</th>
+                    <th>Weight Percentile</th>
+                    <th>HaW</th>
+                    </tr>
+                    <tr>
+                        <th>{{sex}}</th>
+                        <th>{{age}} years</th>
+                        <th>{{height}}cm</th>
+                        <th>{{weight}}kg</th>
+                        <th>{{height_score}}%</th>
+                        <th>{{weight_score}}%</th>
+                        <th>{{haw_score}}%</th>
+                    </tr>
+                </table> 
+                {% endif %}
             </div>
-        </form>
+            <div id="col-3" class="container">
+                {% if img %}
+                <img src="data:image/jpeg;base64,{{ img }}" />
+                {% endif %}
+            </div>
+            <div id="col-4" class="container">
+                {% if img2 %}
+                <img src="data:image/jpeg;base64,{{ img2 }}" />
+                {% endif %}
+            </div>
+    <!-- End Right Column -->
     </div>
-    <div id="col-2">
-        <div id="top_row">
-            {% if age %}
-            <table cellspacing=3>
-                <tr>
-                <th>Sex</th>
-                <th>Age</th>
-                <th>Height</th>
-                <th>Weight</th>
-                <th>Height Percentile</th>
-                <th>Weight Percentile</th>
-                <th>HaW</th>
-                </tr>
-                <tr>
-                    <th>{{sex}}</th>
-                    <th>{{age}} years</th>
-                    <th>{{height}}cm</th>
-                    <th>{{weight}}kg</th>
-                    <th>{{height_score}}%</th>
-                    <th>{{weight_score}}%</th>
-                    <th>{{haw_score}}%</th>
-                </tr>
-            </table> 
-            {% endif %}
-        </div>
-        <div id="col-3" class="container">
-            {% if img %}
-            <img src="data:image/jpeg;base64,{{ img }}" />
-            {% endif %}
-        </div>
-        <div id="col-4" class="container">
-            {% if img2 %}
-            <img src="data:image/jpeg;base64,{{ img2 }}" />
-            {% endif %}
-        </div>
-    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+  <!-- End Page Container -->
+</div>
+
+<footer class="w3-container w3-teal w3-center w3-margin-top" id="foot">
+  <p>Kiyono Lab</p>
+  <p>Graduate School of Engineering Sciences - Osaka University</p>
+  <a href="https://github.com/jkruse27/Percentile-Calculator" class="fa fa-github w3-hover-opacity"></a>
+  <a href="https://chaos-kiyono.hatenablog.com/" class="fa fa-newspaper-o w3-hover-opacity"></a>
+  <a href="http://kiyono-lab.bpe.es.osaka-u.ac.jp/" class="fa fa-external-link w3-hover-opacity"></a>
+</footer>
+
 </body>
 </html>
