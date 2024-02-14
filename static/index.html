@@ -12,11 +12,31 @@
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </style>
+<script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+    }
+    window.onload = closeNav;
+</script>
 </head>
+
 <body class="w3-light-grey">
+<div id="mySidebar" class="sidebar">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+<a class="active" href="/">Height and Weight</a>
+<a href="/low_bmd">Bone Mineral Density</a>
+<a href="/about">About</a>
+</div>
 
 <!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
+<div class="w3-content w3-margin-top" style="max-width:1400px;" id="main">
+<button class="openbtn" onclick="openNav()">☰</button>  
 
   <!-- The Grid -->
   <div class="w3-row-padding">
@@ -27,7 +47,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       <div class="w3-white w3-text-grey w3-card-4">
         <h1>Height-Adjusted Weight Percentile Calculator</h1>
         <div class="w3-container">
-                <form action="/submit" method="get">
+                <form action="/submit" method="get" class="form1">
                     <div>
                         <p>Sex:</p>
                         {% if sex=='female' %}

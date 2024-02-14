@@ -602,3 +602,55 @@ def get_plots(
     fig.tight_layout()
 
     return fig
+
+
+def bmd_score(
+        age_at_menarche: int,
+        secondary_amenorrhea: bool,
+        present_amenorrhea_duration: int,
+        bmi: float,
+        fracture_history: float,
+        high_exercise_load: bool
+) -> int:
+    """Function that calculates the Bone Mineral Density
+    score for a female athlete.
+
+    Parameters
+    ----------
+    age_at_menarche : int
+        Age in years the athletes had their menarche (can be None if it
+        hasn't happend yet).
+    secondary_amenorrhea : bool
+        Whether the athlete had secondary amenorrhea for more than 1 year
+        in their teens.
+    present_amenorrhea_duration : int
+        Duration in months of the present ameorrhea.
+    bmi : float
+        Current body mass index of the athlete.
+    fracture_history : bool
+        Whether the athlete has a history of stress related fractures.
+    high_exercise_load : bool
+        Whether the athlete exercise load is high.
+
+    Returns
+    -------
+    int
+        Bone Mineral Density score
+    """
+    score = 0
+    if (age_at_menarche >= 15):
+        score += 1
+    if (secondary_amenorrhea):
+        score += 1
+    if (present_amenorrhea_duration >= 18):
+        score += 2
+    elif (present_amenorrhea_duration >= 3):
+        score += 1
+    if (bmi <= 17):
+        score += 1
+    if (fracture_history):
+        score += 1
+    if (not high_exercise_load):
+        score += 2
+
+    return score

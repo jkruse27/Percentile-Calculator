@@ -14,6 +14,20 @@ input[type="number"] {
   display: block;
   margin : 0 auto;
 }
+fieldset {
+  text-align: center;
+}
+label {
+  display: inline-block;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+form input[type="radio"] {
+  display: inline-block;
+  clear: none;
+  width: auto;
+}
+
 select {
   display: block;
   margin : 0 auto;
@@ -71,25 +85,19 @@ table, th, td {
    background-color: #fdffff;
    }
 
-html, body {
-  background: #b3b0b0;
-  font-family: 'Merriweather', sans-serif;
-  padding: 1em;
-  height: 100%;
-}
-
-h1 {
+h1, h2, h3 {
    text-align: center;
    color: #2d2d2d;
    @include text-shadow(1px 1px 0 rgba(white, 1));
 }
 
-form {
-   display: block;
-   max-width: 600px;
-   text-align: left;
-   margin: 20px auto;
-  input, textarea {
+.form1 {
+  display: block;
+  max-width: 600px;
+  text-align: left;
+  margin: 20px auto;
+
+  input[type=number], input[type=text], input[type=submit], textarea {
      border:0; outline:0;
      padding: 1em;
      @include border-radius(8px);
@@ -104,20 +112,51 @@ form {
        @include box-shadow(0 0px 2px rgba($red, 1)!important);
     }
   }
-  
-  #input-submit {
-     color: black; 
-     cursor: pointer;
+    #input-submit {
+      color: black; 
+      cursor: pointer;
+     
+     &:hover {
+        @include box-shadow(0 1px 1px 1px rgba(#aaa, 0.6)); 
+     }
+   }
+}
+.form2 {
+  display: block;
+  max-width: 600px;
+  text-align: left;
+  margin: 20px auto;
+
+  input[type=number], input[type=text] {
+      border:0; outline:0;
+      @include border-radius(8px);
+      display: block;
+      width: 100%;
+      font-family: 'Merriweather', sans-serif;
+      @include box-shadow(0 1px 1px rgba(black, 0.1));
+      resize: none;
     
-    &:hover {
-       @include box-shadow(0 1px 1px 1px rgba(#aaa, 0.6)); 
+    &:focus {
+        @include box-shadow(0 0px 2px rgba($red, 1)!important);
+    };
+  }
+    #input-submit {
+      color: black; 
+      cursor: pointer;
+      border:0; outline:0;
+      padding: 1em;
+      @include border-radius(8px);
+      display: block;
+      width: 100%;
+      margin-top: 1em;
+      font-family: 'Merriweather', sans-serif;
+      @include box-shadow(0 1px 1px rgba(black, 0.1));
+      resize: none;
+      &:hover {
+        @include box-shadow(0 1px 1px 1px rgba(#aaa, 0.6)); 
+      }
     }
   }
-  
-  textarea {
-      height: 126px;
-  }
-}
 
 
 .half {
@@ -201,3 +240,131 @@ form {
 
  .buttons {
    display: flex;}
+
+.green_box {
+  display: inline-block;
+  padding: 1em 1.4em;
+  font-size: xxx-large;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin: 0 0 0 -1.4em;
+  background-color:#61df85;
+}
+
+.red_box {
+  display: inline-block;
+  padding: 1em 1.4em;
+  font-size: xxx-large;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin: 0 0 0 -1.4em;
+  background-color:#f05d4a;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  display: inline;
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(69, 68, 68);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+ /* The side navigation menu */
+ .sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+} 
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #5c5c5c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+
+#main {
+  transition: margin-left .5s; /* If you want a transition effect */
+  padding: 20px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}

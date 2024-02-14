@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HaW Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+    }
+    window.onload = closeNav;
+</script>
+</head>
+
+<body class="w3-light-grey">
+<div id="mySidebar" class="sidebar">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+<a href="/">Height and Weight</a>
+<a href="/low_bmd">Bone Mineral Density</a>
+<a class="active" href="/about">About</a>
+</div>
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;" id="main">
+<button class="openbtn" onclick="openNav()">☰</button>  
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+    <div class="w3-third">
+        <div class="w3-white w3-text-grey w3-card-4">
+            <div class="w3-display-container">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/65/Osaka_University_logo.svg/1200px-Osaka_University_logo.svg.png" style="width:100%" alt="Avatar">
+            </div>
+            <div class="w3-container">
+                <p>Kiyono Laboratory</p>
+                <p>Graduate School of Engineering Sciences</p>
+                <p>Osaka University</p>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <!-- Right Column -->
+    <div class="w3-twothird">
+        <h1>About the website</h1>
+
+        <p><b>Height-adjusted Weight Percentile</b></p>
+        <p>
+        &emsp;Precision in evaluating underweight and overweight status among children 
+        and adolescents is paramount for averting health and developmental issues. 
+        Existing standards for these assessments have faced scrutiny regarding their validity. 
+        Applying IOFT criteria for underweight assessment reveals pronounced height
+        dependence in males aged 11–13 and females aged 10–11. Notably, a discernible bias emerged,
+        wherein children in the lower 25th percentile were classified as underweight five times more
+        frequently than those in the upper 25th percentile. Similarly, the overweight assessment displayed
+        robust height dependence in males aged 8–11 and females aged 7–10, with children in the lower
+        25th percentile for height deemed obese four or five times more frequently than their counterparts
+        in the upper 25th percentile. Furthermore, using the Japanese POW criteria for assessment
+        revealed significant age dependence in addition to considerably underestimating the percentage
+        of underweight and overweight cases under the age of seven. However, the height dependence
+        for the POW criterion was smaller than the BMI criterion, and the difference between height
+        classes was less than threefold.
+        </p>
+        <p>
+        &emsp;To get a more robust assessment of thinness and overweight in children, the Height-adjusted
+        weight percentile score was implemented here. In it, the childs height, weight and age are used
+        to classify in which percentile it falls when compared to children of the same sex and height group.
+        This can then be used for a more robust estimation of thinness and overweight. Some important notes
+        are that this tool is only applicable for children between the ages of 5 and 17, and that the percentiles
+        are calculated based on Japanese children data, meaning that it might not be applicable for non-japanese
+        subjects.
+        </p>
+        <p><b>Associated paper:</b> Yoshuke, I. et al. (2024) "Age- And Height-Dependent Bias of
+            Underweight and Overweight Assessment
+            Standards for Children and Adolescents" [Manuscript submitted for publication]</p>
+
+        <br>
+        <p><b>Low Bone Mineral Density Risk Score</b></p>
+        <p>&emsp;The prevalence of low bone mineral density (BMD) among female athletes is
+            higher (up to ~40%) than that among their male counterparts. This makes it very important
+            to properly assess low BMD risk in patients, as it increases the risk
+            of stress fractures, among other problems. For that, a screening tool 
+            was developed and validated for low BMD in female athletes. In it, athletes scoring ≥3
+             are recommended to have BMD assessed by DXA.</p>
+        <p>&emsp;To obtain the score, just fill the questionnaire in the corresponding page. Note that this
+            scoring was developed for young female athletes, so that is the only demographic to which it
+            applies (in particular, it was developed with Japanese female athletes data). This score is
+            not meant to replace a medical assessment and diagnosis in no way shape or form, and was 
+            developed as an assistive tool for experts to help monitor the athletes conditions.</p>
+        <p>The list below gives examples of sports for each impact category:</p>
+        <ul>
+            <li><b>High-impact:</b> Rythmic gymnastics, athletics long jumping, hurdles, snowboard, ski jumping,
+                figure skating, volleyball, ballet, mogul skiing, throwing, etc.
+            </li>
+            <li><b>Multidirectional-impact:</b> Football, rugby, athletics short distance, tennis, speed skating, 
+                judo, basketball, pole vaulting, boxing, karate, ski cross-country, fencing, handball, wrestling, 
+                ice hockey, etc.
+            </li>
+            <li><b>Low-impact:</b> Athletics medium and long distance, shooting, thriatlon, climbing, archery, etc.</li>
+            <li><b>Non-impact:</b> Artistic swimming, sailing, water polo, cycling, high-diving, curling, swimming, canoe, etc.</li>
+          </ul> 
+        <p><b>Associated paper:</b> Nose-Ogura, S. et al. (2024) "Development and Validation of a Low Bone Mineral Density Screening Tool for Female Athletes" [Manuscript submitted for publication]</p>
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+  <!-- End Page Container -->
+</div>
+
+<footer class="w3-container w3-teal w3-center w3-margin-top" id="foot">
+  <p>Kiyono Lab</p>
+  <p>Graduate School of Engineering Sciences - Osaka University</p>
+  <a href="https://github.com/jkruse27/Percentile-Calculator" class="fa fa-github w3-hover-opacity"></a>
+  <a href="https://chaos-kiyono.hatenablog.com/" class="fa fa-newspaper-o w3-hover-opacity"></a>
+  <a href="http://kiyono-lab.bpe.es.osaka-u.ac.jp/" class="fa fa-external-link w3-hover-opacity"></a>
+</footer>
+
+</body>
+</html>
