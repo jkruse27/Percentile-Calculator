@@ -44,28 +44,37 @@ select {
  } 
 
  .w3-container input{ /* You Can Name it what you want*/
-  margin-right:2em;
+  margin-right:1em;
   }
   .w3-container input:last-child{
   margin-right:0px;
   /*so the last one dont push the div thas giving the space only between the inputs*/
   }
 
+ 
+  .container
+  {
+    width:100%;
+    background-color:#f1f1f1;
+  }
+
  #col-3 {
    position: relative;
    width: 50%;
+   min-width: 250px;
    float: left;
    height: 100%;
-   background-color: #b3b0b0;
+   background-color: #f1f1f1;
    z-index: 1010101010
  }
- 
+
  #col-4 {
    position: relative;
    width: 50%;
+   min-width: 250px;
    float: left;
    height: 100%;
-   background-color: #b3b0b0;
+   background-color: #f1f1f1;
    z-index: 1010101010
  }
 
@@ -76,21 +85,31 @@ select {
  }
 
 table, th, td {
+  background-color: #b8bbbb;;
+  table-layout: fixed;
    margin: 0 auto;
    border: 1px solid black;
    border-radius: 4px;
-   padding: 15px;
+   padding: 0.5em;
+   border-collapse: inherit !important;
+   text-align: center;
    }
-   th, td {
-   background-color: #fdffff;
-   }
+   td, th { 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    word-wrap: break-word;
+    background-color: #e1e1e1;
+}
 
 h1, h2, h3 {
    text-align: center;
    color: #2d2d2d;
    @include text-shadow(1px 1px 0 rgba(white, 1));
 }
-
+h1 {
+  font-size: 3vw !important;
+  margin-bottom: 1em !important;
+}
 .form1 {
   display: block;
   max-width: 600px;
@@ -98,12 +117,12 @@ h1, h2, h3 {
   margin: 20px auto;
 
   input[type=number], input[type=text], input[type=submit], textarea {
-     border:0; outline:0;
+     outline:0;
      padding: 1em;
      @include border-radius(8px);
      display: block;
      width: 100%;
-     margin-top: 1em;
+     margin-bottom: 1em;
      font-family: 'Merriweather', sans-serif;
      @include box-shadow(0 1px 1px rgba(black, 0.1));
      resize: none;
@@ -128,10 +147,11 @@ h1, h2, h3 {
   margin: 20px auto;
 
   input[type=number], input[type=text] {
-      border:0; outline:0;
+      outline:0;
       @include border-radius(8px);
       display: block;
       width: 100%;
+      margin-bottom: 1em;
       font-family: 'Merriweather', sans-serif;
       @include box-shadow(0 1px 1px rgba(black, 0.1));
       resize: none;
@@ -221,6 +241,7 @@ h1, h2, h3 {
    content: "";
    position: absolute;
    right: 1rem;
+   margin-bottom: 1em;
    pointer-events: none;
  }
  
@@ -239,7 +260,10 @@ h1, h2, h3 {
  }
 
  .buttons {
-   display: flex;}
+  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  }
 
 .green_box {
   display: inline-block;
@@ -248,7 +272,7 @@ h1, h2, h3 {
   position: relative;
   top: 50%;
   left: 50%;
-  margin: 0 0 0 -1.4em;
+  margin: 0 0 0 -1.6em;
   background-color:#61df85;
 }
 
@@ -259,7 +283,7 @@ h1, h2, h3 {
   position: relative;
   top: 50%;
   left: 50%;
-  margin: 0 0 0 -1.4em;
+  margin: 0 0 0 -1.6em;
   background-color:#f05d4a;
 }
 
@@ -292,7 +316,7 @@ h1, h2, h3 {
  .sidebar {
   margin: 0;
   padding: 0;
-  width: 200px;
+  width: 0;
   background-color: #f1f1f1;
   position: fixed;
   height: 100%;
@@ -321,13 +345,13 @@ h1, h2, h3 {
 
 /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
 div.content {
-  margin-left: 200px;
+  margin-left: 250px;
   padding: 1px 16px;
   height: 1000px;
 }
 
 /* On screens that are less than 700px wide, make the sidebar into a topbar */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 850px) {
   .sidebar {
     width: 100%;
     height: auto;
@@ -335,6 +359,26 @@ div.content {
   }
   .sidebar a {float: left;}
   div.content {margin-left: 0;}
+  tr { display: block; float: left; }
+  th, td { display: block; }
+
+  #col-3 {
+    position: relative;
+    width: 100%;
+    float: left;
+    height: 100%;
+    background-color: #f1f1f1;
+    z-index: 1010101010
+  }
+ 
+  #col-4 {
+    position: relative;
+    width: 100%;
+    float: left;
+    height: 100%;
+    background-color: #f1f1f1;
+    z-index: 1010101010
+  }
 }
 
 /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
@@ -342,6 +386,30 @@ div.content {
   .sidebar a {
     text-align: center;
     float: none;
+    
+  tr { display: block; float: left; }
+  th, td { display: block; }
+  }
+  
+  h1{
+    font-size: 8vw !important;
+  }
+  #col-3 {
+    position: relative;
+    width: 100%;
+    float: left;
+    height: 100%;
+    background-color: #f1f1f1;
+    z-index: 1010101010
+  }
+ 
+  #col-4 {
+    position: relative;
+    width: 100%;
+    float: left;
+    height: 100%;
+    background-color: #f1f1f1;
+    z-index: 1010101010
   }
 } 
 
@@ -367,4 +435,43 @@ div.content {
 @media screen and (max-height: 450px) {
   .sidebar {padding-top: 15px;}
   .sidebar a {font-size: 18px;}
+}
+
+.navbar-custom {
+  background-color: #b3b0b0;
+  ul > li > a {
+    color: black;
+  }
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: black;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;            /* Footer height */
+}
+
+@media only screen and (max-width: 480px) {
+  /* horizontal scrollbar for tables if mobile screen */
+  .tablemobile {
+      overflow-x: auto;
+      display: block;
+  }
+  
+  tr { display: block; float: left; }
+  th, td { display: block; }
 }

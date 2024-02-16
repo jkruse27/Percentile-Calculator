@@ -4,6 +4,9 @@
 <title>HaW Calculator</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="static/style.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
@@ -31,40 +34,50 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
        }
        return true;
     }
-    </script>    
-    <script>
-        function openNav() {
-          document.getElementById("mySidebar").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-        }
-        
-        function closeNav() {
-          document.getElementById("mySidebar").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-        }
-        window.onload = closeNav;
     </script>
+
+  {% if score %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById("results").scrollIntoView({behavior: "smooth", block:"start"});
+  }, false);
+  </script>
+  {% endif %}
 </head>
 
 <body class="w3-light-grey">
-<div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="/">Height and Weight</a>
-    <a class="active" href="/low_bmd">Bone Mineral Density</a>
-    <a href="/about">About</a>
-</div>
-
+  <div id="page-container">
+    <div id="content-wrap">
 <!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;" id="main">
-  <button class="openbtn" onclick="openNav()">☰</button>  
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/">HaW Calculator</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav bg-secondary">
+        <li><a class="navbar-brand" href="/">Height and Weight</a></li>
+        <li><a class="navbar-brand active" href="/low_bmd">Bone Mineral Density</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/about">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="w3-content w3-margin-top" style="max-width:5000px;" id="main">
+  <h1>Low BMD Risk Calculator</h1>
+  <!--<button class="openbtn" onclick="openNav()">☰</button>  -->
   <!-- The Grid -->
   <div class="w3-row-padding">
-  
     <!-- Left Column -->
     <div class="w3-third">
-    
       <div class="w3-white w3-text-grey w3-card-4">
-        <h1>Low BMD Risk Calculator</h1>
         <div class="w3-container">
                 <form action="/get_score" method="get" onsubmit="InsertDefaultValues()" class="form2">
                     <div>
@@ -74,7 +87,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         oninvalid="this.setCustomValidity('Enter a valid age between 5 and 40 or leave empty in case the first menstruation has not occured yet.')"
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% else %}
-                        <input type="number" name="age_at_menarche" id="age_at_menarche" min="5" max="40" placeholder="13" value=""
+                        <input type="number" name="age_at_menarche" id="age_at_menarche" min="5" max="40" value=""
                         oninvalid="this.setCustomValidity('Enter a valid age between 5 and 40 or leave empty in case the first menstruation has not occured yet.')"
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% endif %}
@@ -85,7 +98,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         oninvalid="this.setCustomValidity('Enter a valid number of months or leave empty in case there is no amenorrhea currently.')"
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% else %}
-                        <input type="number" name="current_amenorrhea_duration" id="current_amenorrhea_duration" min="0" placeholder="3" value=""
+                        <input type="number" name="current_amenorrhea_duration" id="current_amenorrhea_duration" min="0" value=""
                         oninvalid="this.setCustomValidity('Enter a valid number of months or leave empty in case there is no amenorrhea currently.')"
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% endif %}     
@@ -96,7 +109,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         oninvalid="this.setCustomValidity('Enter a valid BMI.')"
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% else %}
-                        <input type="text" name="bmi" id="bmi" value="{{bmi}}" placeholder="22.1" inputmode="numeric" pattern="\d+(.\d)*" required
+                        <input type="text" name="bmi" id="bmi" value="{{bmi}}" value="22.1" inputmode="numeric" pattern="\d+(.\d)*" required
                         oninvalid="this.setCustomValidity('Enter a valid BMI.')"
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% endif %}
@@ -151,7 +164,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     </div>
 
     <!-- Right Column -->
-    <div class="w3-twothird">
+    <div class="w3-twothird" id="results">
         <h1>Results</h1>
         <div>
             <div id="top_row">
@@ -174,7 +187,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   
   <!-- End Page Container -->
 </div>
-
+</div>
+</div>
 <footer class="w3-container w3-teal w3-center w3-margin-top" id="foot">
   <p>Kiyono Lab</p>
   <p>Graduate School of Engineering Sciences - Osaka University</p>
@@ -182,6 +196,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <a href="https://chaos-kiyono.hatenablog.com/" class="fa fa-newspaper-o w3-hover-opacity"></a>
   <a href="http://kiyono-lab.bpe.es.osaka-u.ac.jp/" class="fa fa-external-link w3-hover-opacity"></a>
 </footer>
+</div>
 
 </body>
 </html>
