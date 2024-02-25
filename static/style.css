@@ -297,8 +297,8 @@ h1 {
   display: inline;
   visibility: hidden;
   width: 120px;
-  background-color: rgb(69, 68, 68);
-  color: #fff;
+  background-color: rgb(203, 199, 199);
+  color: #000000 !important;
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
@@ -474,4 +474,41 @@ div.content {
   
   tr { display: block; float: left; }
   th, td { display: block; }
+}
+
+span {
+  font-family: utf;
+}
+span.show-title:after {
+  content:attr(title);
+  padding:5px;
+  border:1px solid #ccc;
+  color: black !important;
+  top:5px;
+  right:10%;
+  background: #f5f5f4;
+}
+
+abbr
+{
+  border-bottom: 1px dotted #666;
+	cursor: help;
+}
+
+.tooltip
+{
+	position:absolute;
+	background-color:#dcdcdd;
+	border: 1px solid #aaaaca;
+	font-size: smaller;
+  color: black !important;
+	padding:4px;
+	width: 160px;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);	
+}
+
+p {
+  text-align: justify;
 }

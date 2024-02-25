@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>HaW Calculator</title>
-<meta charset="UTF-8">
+<meta charset="UTF-16">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -12,6 +12,8 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js'></script>
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </style>
@@ -35,6 +37,69 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
        return true;
     }
     </script>
+  
+  <script type="text/javascript">
+$(document).ready(function() {	
+	
+	/**
+	 * store the value of and then remove the title attributes from the
+	 * abbreviations (thus removing the default tooltip functionality of
+         * the abbreviations)
+	 */
+	$('abbr').each(function(){		
+		
+		$(this).data('title',$(this).attr('title'));
+		$(this).removeAttr('title');
+	
+	});
+
+        /**
+	 * when abbreviations are mouseover-ed show a tooltip with the data from the title attribute
+	 */	
+	$('abbr').mouseover(function() {		
+		
+		// first remove all existing abbreviation tooltips
+		$('abbr').next('.tooltip').remove();
+		
+		// create the tooltip
+		$(this).after('<abbr class="tooltip">' + $(this).data('title') + '</span>');
+		
+		// position the tooltip 4 pixels above and 4 pixels to the left of the abbreviation
+		var left = $(this).position().left + $(this).width() + 4;
+		var top = $(this).position().top - 4;
+		$(this).next().css('left',left);
+		$(this).next().css('top',top);				
+		
+	});
+	
+	/**
+	 * when abbreviations are clicked trigger their mouseover event then fade the tooltip
+	 * (this is friendly to touch interfaces)
+	 */
+	$('abbr').click(function(){
+		
+		$(this).mouseover();
+		
+		// after a slight 2 second fade, fade out the tooltip for 1 second
+		$(this).next().animate({opacity: 1.0},{duration: 200, complete: function(){
+			/*$(this).fadeOut(1000);*/
+		}});
+		
+	});
+	
+	/**
+	 * Remove the tooltip on abbreviation mouseout
+	 */
+	$('abbr').mouseout(function(){
+			
+		$(this).next('.tooltip').remove();				
+
+	});	
+	
+});
+  </script>
+
+  
 
   {% if score %}
   <script>
@@ -81,7 +146,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         <div class="w3-container">
                 <form action="/get_score" method="get" onsubmit="InsertDefaultValues()" class="form2">
                     <div>
-                        <p>Age at menarche:  <span title="Age in years when the first menstruation occured (leave empty in case it has not occured yet.)">&#x1F6C8;</span></p>
+                        <p>Age at menarche: <abbr title="Age in years when the first menstruation occured (leave empty in case it has not occured yet.)" class="fa fa-info-circle"></abbr></p>
                         {% if age_at_menarche %}
                         <input type="number" name="age_at_menarche" id="age_at_menarche" min="5" max="40" value="{{age_at_menarche}}"
                         oninvalid="this.setCustomValidity('Enter a valid age between 5 and 40 or leave empty in case the first menstruation has not occured yet.')"
@@ -92,7 +157,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% endif %}
 
-                        <p>Current amenorrhea duration:  <span title="Current duration of amenorrhea in months (leave empty in case not currently amenorrheic.). Amenorrhea is the absence of a menstrual period.">&#x1F6C8;</span></p>
+                        <p>Current amenorrhea duration:  <abbr title="Current duration of amenorrhea in months (leave empty in case not currently amenorrheic.). Amenorrhea is the absence of a menstrual period." class="fa fa-info-circle"></abbr></p>
                         {% if current_amenorrhea_duration %}
                         <input type="number" name="current_amenorrhea_duration" id="current_amenorrhea_duration" min="0" value="{{current_amenorrhea_duration}}" 
                         oninvalid="this.setCustomValidity('Enter a valid number of months or leave empty in case there is no amenorrhea currently.')"
@@ -103,7 +168,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         oninput="this.setCustomValidity('')" class="center"/>
                         {% endif %}     
 
-                        <p>BMI: <span title="Current body mass index, given by the weight in kilograms divided by the square of the height in meters.">&#x1F6C8;</span></p>
+                        <p>BMI: <abbr title="Current body mass index, given by the weight in kilograms divided by the square of the height in meters." class="fa fa-info-circle"></abbr></p>
                         {% if bmi %}
                         <input type="text" name="bmi" id="bmi" value="{{bmi}}" inputmode="numeric" pattern="\d+(.\d)*" required
                         oninvalid="this.setCustomValidity('Enter a valid BMI.')"
@@ -115,7 +180,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         {% endif %}
 
                         <div class="radio_buttons">
-                        <p>Secondary amenorrhea for more than 1 year in the teens: <span title="Whether the subject had secondary amenorrhea for more than one year as a teen." class="tooltiptext">&#x1F6C8;</span></p>
+                        <p>Secondary amenorrhea for more than 1 year in the teens: <abbr title="Whether the subject had secondary amenorrhea for more than one year as a teen." class="tooltiptext fa fa-info-circle"></abbr></p>
                         <fieldset>
                         {% if secondary_amenorrhea %}
                         <label for="yes"> <input type="radio" name="secondary_amenorrhea" id="yes" checked="checked" value="true"/> Yes</label>
@@ -128,7 +193,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         </div> 
 
                         <div class="radio_buttons">
-                        <p>Fracture history: <span title="Whether the subject has a history of stress fractures (including those under treatment).">&#x1F6C8;</span></p>
+                        <p>Fracture history: <abbr title="Whether the subject has a history of stress fractures (including those under treatment)." class="fa fa-info-circle"></abbr></p>
                         <fieldset>
                         {% if fracture_history %}
                         <label for="yes"><input type="radio" name="fracture_history" id="yes" checked="checked" value="true"/> Yes</label>
@@ -141,7 +206,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                         </div>
 
                         <div class="radio_buttons">
-                        <p>Exercise load: <span title="The impact of the exercises practiced.\nHigh impact sports include hurdles, gymnastics, etc.\nMulti-directional impact includes sports such as football, boxing, etc. \nLow impact sports include long distance athletics, climbing, etc.\n Non-impact sports include swimming, cycling, etc.">&#x1F6C8;</span></p>
+                        <p>Exercise load: <abbr title="The impact of the exercises practiced.\nHigh impact sports include hurdles, gymnastics, etc.\nMulti-directional impact includes sports such as football, boxing, etc. \nLow impact sports include long distance athletics, climbing, etc.\n Non-impact sports include swimming, cycling, etc." class="fa fa-info-circle"></abbr></p>
                         <fieldset>
                         {% if high_exercise_load %}
                         <label for="yes"><input type="radio" name="high_exercise_load" id="yes" checked="checked" value="true"/> High or multi-directional</label>
